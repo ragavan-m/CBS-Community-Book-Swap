@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swap Requests - Community Book Swap</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .table {
+            background-color: #ffffff;
+        }
+        .table th, .table td {
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Received Swap Requests</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Requester</th>
+                        <th>Book Title</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in received_requests %}
+                        <tr>
+                            <td>{{ request.requester.username }}</td>
+                            <td>{{ request.book.title }}</td>
+                            <td>{{ request.status }}</td>
+                            <td>
+                                <!-- Add actions like approve/reject if needed -->
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Sent Swap Requests</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Owner</th>
+                        <th>Book Title</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in sent_requests %}
+                        <tr>
+                            <td>{{ request.owner.username }}</td>
+                            <td>{{ request.book.title }}</td>
+                            <td>{{ request.status }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Books - Community Book Swap</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .table-container {
+            display: flex;
+            justify-content: center;
+        }
+        table {
+            background-color: white;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1 class="text-center">Search Books</h1>
+        <div class="search-container">
+            <form method="post" class="form-inline">
+                {% csrf_token %}
+                <input class="form-control form-control-lg mr-2" type="text" name="search_query" placeholder="Search for books">
+                <button class="btn btn-primary btn-lg" type="submit">Search</button>
+            </form>
+        </div>
+        {% if books_data %}
+        <div class="table-container">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Authors</th>
+                        <th>Description</th>
+                        <th>ISBN</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books_data %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.authors }}</td>
+                        <td>{{ book.description }}</td>
+                        <td>{{ book.isbn }}</td>
+                        <td>
+                            <form method="post" action="{% url 'check_swap_availability' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="isbn" value="{{ book.isbn }}">
+                                <button type="submit" class="btn btn-primary">Check Swap Availability</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% elif error_message %}
+            <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+        {% endif %}
+    </main>
+    <footer class="footer bg-dark">
+        <div class="container">
+            <span class="text-muted">© 2023 Community Book Swap</span>
+        </div>
+    </footer>
+</body>
+</html>

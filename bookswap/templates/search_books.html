@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Books - Community Book Swap</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url("{% static 'bookswap/images/bg3.svg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        .navbar {
+            background-color: #563d7c;
+        }
+        .navbar-brand {
+            color: #ffffff !important;
+        }
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 0.5rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .search-form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .search-form .form-group {
+            display: flex;
+            justify-content: center;
+        }
+        .search-form input[type="text"] {
+            width: 50%;
+            padding: 15px;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+        .search-form button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #563d7c;
+            border: none;
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .table {
+            background-color: #ffffff;
+        }
+        .table th, .table td {
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Logo and Navbar Links -->
+    <header class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="{% url 'dashboard' %}">
+            <img src="{% static 'bookswap/images/logo.png' %}" width="30" height="30" alt="Logo">
+            Community Book Swap
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'book_list' %}">Manage Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'swap_request' %}">Swap Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'review_list' %}">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'search_books' %}">Search Books</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Account
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                        <form method="post" action="{% url 'logout' %}" style="display:inline; width: 100%;">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item" style="padding: 0.5rem 1rem; border: none; background: none; width: 100%; text-align: left;">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </header>
+    
+    
+
+    <!-- Main Content -->
+    <main class="container">
+        <h2 class="text-center">Search Books</h2>
+        <form method="post" action="{% url 'search_books' %}" class="search-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" id="search-query" name="search_query" class="form-control" value="{{ request.POST.search_query }}" placeholder="Enter book title, author, or ISBN">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        {% if error_message %}
+            <div class="alert alert-danger" role="alert">
+                {{ error_message }}
+            </div>
+        {% endif %}
+
+        {% if books_data %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Authors</th>
+                            <th>Description</th>
+                            <th>ISBN</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in books_data %}
+                            <tr>
+                                <td>{{ book.title }}</td>
+                                <td>{{ book.authors }}</td>
+                                <td>{{ book.description }}</td>
+                                <td>{{ book.isbn }}</td>
+                                <td>
+                                    <form method="post" action="{% url 'check_swap_availability' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="isbn" value="{{ book.isbn }}">
+                                        <button type="submit" class="btn btn-success btn-sm">Check Swap Availability</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">© 2023 Community Book Swap</span>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

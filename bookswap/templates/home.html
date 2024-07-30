@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Book Swap</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url("{% static 'bookswap/images/book.jpg' %}");
+            background-size: cover; 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+            background-position: center; 
+            color: white; 
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .navbar {
+            background-color: #563d7c;
+        }
+        .navbar-brand {
+            color: #ffffff !important;
+        }
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+        }
+        .jumbotron {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+        }
+        .jumbotron .btn {
+            background-color: #f8b400;
+            border: none;
+        }
+        .section-heading {
+            text-align: center;
+            margin: 2rem 0;
+            color: #f8f9fa; /* Light color for better readability */
+        }
+        .feature {
+            text-align: center;
+            padding: 2rem 1rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            color: white; /* Ensure text is white */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Slightly darker shadow */
+            transition: transform 0.3s;
+        }
+        .feature:hover {
+            transform: scale(1.05);
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Logo -->
+    <header class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'bookswap/images/logo.png' %}" width="30" height="30" alt="Logo">
+            Community Book Swap
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Login/Register
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                        <a class="dropdown-item" href="{% url 'register' %}">Register</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mt-5">
+        <!-- Jumbotron Section -->
+        <div class="jumbotron animate__animated animate__fadeIn">
+            <h1 class="display-4">Welcome to Community Book Swap!</h1>
+            <p class="lead">Share your books and discover new reads in your community.</p>
+            <hr class="my-4">
+            <p>Ready to get started? Browse our collection or post your own books to swap.</p>
+            <a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Get Started</a>
+        </div>
+        
+        <!-- About Section -->
+        <section class="my-5">
+            <h2 class="section-heading">About Us</h2>
+            <p class="text-center">Community Book Swap is a platform that connects book lovers from around your neighborhood. Whether you are looking to find new books or share your collection, our platform makes it easy and enjoyable to swap books with others.</p>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="my-5">
+            <h2 class="section-heading">How It Works</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature animate__animated animate__bounceIn">
+                        <h3>1. Register</h3>
+                        <p>Create an account to start swapping books.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature animate__animated animate__bounceIn animate__delay-1s">
+                        <h3>2. List Books</h3>
+                        <p>Post the books you have that you want to share with the community.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature animate__animated animate__bounceIn animate__delay-2s">
+                        <h3>3. Swap</h3>
+                        <p>Browse available books and request swaps with other users.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="my-5">
+            <h2 class="section-heading">Features</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="feature animate__animated animate__fadeInUp">
+                        <h3>Easy book listing and management</h3>
+                        <p>Effortlessly list your books and manage your collection with our intuitive interface.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feature animate__animated animate__fadeInUp animate__delay-2s">
+                        <h3>User ratings and reviews</h3>
+                        <p>Rate and review users to ensure a trustworthy community experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark">
+        <div class="container">
+            <span class="text-muted">© 2023 Community Book Swap</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
